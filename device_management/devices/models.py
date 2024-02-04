@@ -22,3 +22,17 @@ class Device(models.Model):
 
     def __str__(self):
         return self.model + ': ' + self.serial
+
+
+class Sensor(models.Model):
+    serial = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    model = models.CharField(max_length=255)
+    description = models.TextField()
+    accepts_commands = models.BooleanField(default=False)
+    available_commands = models.JSONField(null=True, blank=True)
+    device = models.ForeignKey(
+        Device, on_delete=models.CASCADE, related_name='sensors')
+
+    def __str__(self):
+        return self.model + ': ' + self.serial

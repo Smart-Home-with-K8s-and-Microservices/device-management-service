@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Device, Room
-from .serializers import DeviceSerializer, RoomSerializer
+from .models import Device, Room, Sensor
+from .serializers import DeviceSerializer, RoomSerializer, SensorSerializer
 
 
 class RoomsViewSet(viewsets.ModelViewSet):
@@ -14,3 +14,10 @@ class DeviceViewSet(viewsets.ModelViewSet):
 
     queryset = Device.objects.all()
     serializer_class = DeviceSerializer
+
+
+class SensorViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'head', 'put', 'patch']
+
+    queryset = Sensor.objects.all()
+    serializer_class = SensorSerializer
