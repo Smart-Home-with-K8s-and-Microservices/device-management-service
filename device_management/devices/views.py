@@ -1,11 +1,14 @@
+import serial
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .exceptions import (DeviceGenericException, DeviceNoResponseException,
+                         DeviceNotFoundException, DeviceUnknownSerialException)
 from .models import Device, Room, Sensor
 from .serializers import (DeviceSerializer, FlashSerialDeviceSerializer,
                           RoomSerializer, SensorSerializer)
-from .utils import compile_and_flash_device
+from .utils import compile_and_flash_device, parse_device_serial
 
 
 class RoomsViewSet(viewsets.ModelViewSet):
@@ -70,3 +73,36 @@ class FlashSerialDevice(APIView):
         else:
             # If validation fails, return the DRF validation errors
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetSerialDevice(APIView):
+    '''API view for retrieving device information based on serial communication.'''
+
+    def get(self, request, *args, **kwargs):
+        try:
+            try:
+                # Establish a serial connection and read data
+                ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=25)
+                data = ser.readline().decode('utf-8').strip()
+
+                # Raise exception if no data is received
+                if not data:
+                    raise DeviceNoResponseException
+
+                # Parse device serial and fetch corresponding device information
+                device_serial = parse_device_serial(data)
+                device = Device.objects.get(serial=device_serial)
+                serializer = DeviceSerializer(device)
+
+                return Response(serializer.data)
+
+            # Raise exception if the device with the parsed serial is not found in the database
+            except Device.DoesNotExist:
+                raise DeviceUnknownSerialException
+
+            # Raise exception if there is an issue with the serial connection
+            except serial.serialutil.SerialException:
+                raise DeviceNotFoundException
+
+        except DeviceGenericException as e:
+            return Response({'error': e.message})
