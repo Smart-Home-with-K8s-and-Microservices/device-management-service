@@ -1,0 +1,70 @@
+[
+  {
+    "device": {
+      "serial": "nodemcu-001",
+      "model": "NodeMCU",
+      "sketch_name": "nodemcu_001_sketch",
+      "fqbn": "esp8266:esp8266:nodemcuv2"
+    },
+    "sensors": [
+      {
+        "serial": "bh1750fvi-001",
+        "model": "BH1750",
+        "description": "A light intensity sensor to measure the light.",
+        "accepts_commands": false
+      }
+    ]
+  },
+  {
+    "device": {
+      "serial": "nodemcu-002",
+      "model": "NodeMCU",
+      "sketch_name": "nodemcu_002_sketch",
+      "fqbn": "esp8266:esp8266:nodemcuv2"
+    },
+    "sensors": [
+      {
+        "serial": "dht11-temper-001",
+        "model": "DHT11(Temperature)",
+        "description": "Sensor that reads the current temperature.",
+        "accepts_commands": false
+      },
+      {
+        "serial": "dht11-humid-001",
+        "model": "DHT11(Humidity)",
+        "description": "Sensor that reads the current levels of humidity.",
+        "accepts_commands": false
+      },
+      {
+        "serial": "relay-ch1-001",
+        "model": "Relay Module(Channel 1)",
+        "description": "Programmable switch to control devices that use the high voltage power supply.",
+        "accepts_commands": true,
+        "available_commands": ["ON", "OFF"]
+      },
+      {
+        "serial": "relay-ch2-001",
+        "model": "Relay Module(Channel 2)",
+        "description": "Programmable switch to control devices that use the high voltage power supply.",
+        "accepts_commands": true,
+        "available_commands": ["ON", "OFF"]
+      }
+    ]
+  },
+  {
+    "device": {
+      "serial": "nodemcu-003",
+      "model": "NodeMCU",
+      "sketch_name": "nodemcu_003_sketch",
+      "fqbn": "esp8266:esp8266:nodemcuv2"
+    },
+    "sensors": [
+      {
+        "serial": "hc-srR501-001",
+        "model": "HC-SR501",
+        "description": "Motion detector to detect movements.",
+        "accepts_commands": false
+      }
+    ]
+  }
+]
