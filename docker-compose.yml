@@ -15,6 +15,8 @@ services:
       - ./device_management:/code/device_management
     ports:
       - '8000:8000'
+    env_file:
+      - .env
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
