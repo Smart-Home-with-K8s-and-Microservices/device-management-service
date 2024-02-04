@@ -24,3 +24,13 @@ class SensorSerializer(serializers.ModelSerializer):
         depth = 1
         fields = '__all__'
         read_only_fields = ('serial', 'model', 'accepts_commands', 'device')
+
+
+class FlashSerialDeviceSerializer(serializers.Serializer):
+    ssid_name = serializers.CharField(write_only=True)
+    ssid_password = serializers.CharField(write_only=True)
+    ip_address = serializers.IPAddressField(write_only=True)
+
+    class Meta:
+        model = Device
+        fields = '__all__'
