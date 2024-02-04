@@ -11,6 +11,8 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
+    tty: true
+    privileged: true
     volumes:
       - ./device_management:/code/device_management
     ports:
