@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    volumes:
+      - ./device_management:/code/device_management
+    ports:
+      - '8000:8000'
