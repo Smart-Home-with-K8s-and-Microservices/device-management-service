@@ -1,4 +1,7 @@
+import json
 import subprocess
+
+from .exceptions import DeviceUnknownResponseException
 
 
 def compile_and_flash_device(ssid, password, ip, fqbn, sketch):
@@ -47,3 +50,23 @@ def compile_and_flash_device(ssid, password, ip, fqbn, sketch):
     except subprocess.CalledProcessError as e:
         # Handle any errors raised during the subprocess calls
         raise Exception(f'Error in flashing the device: {e}')
+
+
+def parse_device_serial(data):
+    '''Parses device serial from JSON data.'''
+
+    try:
+        # Deserialize the JSON data
+        deserialized_message = json.loads(data)
+        
+        # Retrieve the device serial from the deserialized message
+        device_serial = deserialized_message.get('serial', None)
+
+        if not device_serial:
+            raise DeviceUnknownResponseException
+        
+        return device_serial
+
+    # Handle JSON decoding error and raise an exception
+    except json.JSONDecodeError:
+        raise DeviceUnknownResponseException
