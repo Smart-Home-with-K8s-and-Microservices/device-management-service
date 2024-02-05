@@ -73,6 +73,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'device_management.wsgi.application'
 
+MQTT_BROKER = os.getenv('MQTT_BROKER')
+MQTT_PORT = int(os.getenv('MQTT_PORT'))
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
