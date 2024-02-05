@@ -13,6 +13,9 @@ python manage.py createsuperuser --noinput --username=$DJANGO_SUPERUSER_USERNAME
 # Run command to populate database with device information
 python manage.py populate_devices &
 
+# Run command that initialize an mqtt service and set devices connection status
+python manage.py set_device_status &
+
 # Wait for all background jobs to finish
 wait
 
