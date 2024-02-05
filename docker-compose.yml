@@ -24,5 +24,17 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_PORT=5432
+  mqttbroker:
+    image: eclipse-mosquitto
+    container_name: mqttbroker
+    ports:
+      - '1883:1883' #default mqtt port
+      - '9001:9001' #default mqtt port for websockets
+    volumes:
+      - ./configs/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw
+      - mqtt_data:/mosquitto/data:rw
+      - mqtt_log:/mosquitto/log:rw
 volumes:
   db_data:
+  mqtt_data:
+  mqtt_log:
