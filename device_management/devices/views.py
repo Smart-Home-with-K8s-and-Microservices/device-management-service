@@ -6,8 +6,10 @@ from rest_framework.views import APIView
 from .exceptions import (DeviceGenericException, DeviceNoResponseException,
                          DeviceNotFoundException, DeviceUnknownSerialException)
 from .models import Device, Room, Sensor
-from .serializers import (DeviceSerializer, FlashSerialDeviceSerializer,
-                          RoomSerializer, SensorSerializer)
+from .serializers import (CommandSerializer, DeviceSerializer,
+                          FlashSerialDeviceSerializer, RoomSerializer,
+                          SensorSerializer)
+from .services import send_command_to_sensor
 from .utils import compile_and_flash_device, parse_device_serial
 
 
@@ -106,3 +108,19 @@ class GetSerialDevice(APIView):
 
         except DeviceGenericException as e:
             return Response({'error': e.message})
+
+
+class SendCommandToSensorView(APIView):
+    def post(self, request):
+        serializer = CommandSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            sensor_serial = serializer.validated_data.get('sensor').serial
+            device_serial = serializer.validated_data.get('device').serial
+            command = serializer.validated_data.get('command')
+
+            send_command_to_sensor(device_serial, sensor_serial, command)
+            return Response({"detail": "Command was sent successfully"})
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
