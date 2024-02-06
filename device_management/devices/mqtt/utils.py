@@ -40,3 +40,8 @@ def get_status_from_payload(mqtt_payload):
     ''' Extracts the 'status' field from the provided MQTT payload.'''
     payload = json.loads(mqtt_payload.decode())
     return payload.get('status', None)
+
+
+def get_command_topic(device_id, sensor_id):
+    '''Generate the MQTT command topic for a specific device and sensor.'''
+    return 'device/' + device_id + '/sensor/' + sensor_id + '/command'
