@@ -111,6 +111,7 @@ class GetSerialDevice(APIView):
 
 
 class SendCommandToSensorView(APIView):
+    '''API view for sending a command to a sensor.'''
     def post(self, request):
         serializer = CommandSerializer(data=request.data)
 
